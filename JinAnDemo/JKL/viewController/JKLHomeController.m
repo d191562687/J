@@ -35,6 +35,11 @@
 #import "ZFModalTransitionAnimator.h"
 
 
+#import "LBXScanView.h"
+#import <objc/message.h>
+#import "LBXScanResult.h"
+#import "LBXScanWrapper.h"
+#import "SubLBXScanViewController.h"
 
 @interface JKLHomeController()<UITableViewDataSource,UITableViewDelegate>
 @property (strong,nonatomic)UITableView *tableView;
@@ -71,63 +76,56 @@
 
 
 
--(void)viewWillAppear:(BOOL)animated
-{
+//-(void)viewWillAppear:(BOOL)animated
+//{
+//    [super viewWillAppear:animated];
+//    
+//
+//    [self.navigationController.navigationBar setBarTintColor:[UIColor groupTableViewBackgroundColor]];
+//    
+//    //左按钮
+//    UIButton *leftbutton = [[UIButton alloc]initWithFrame:CGRectMake(20, 7, 30, 27)];
+//    [leftbutton setImage:[UIImage imageNamed:@"Pulse"] forState:UIControlStateNormal];
+//    [leftbutton addTarget:self action:@selector(showAddView) forControlEvents:UIControlEventTouchUpInside];
+//    [self.navigationController.navigationBar addSubview:leftbutton];
+//    
+//    
+//    UIButton * serBar = [[UIButton alloc]initWithFrame:CGRectMake(80, 6, 270, 35)];
+//    [serBar setImage:[UIImage imageNamed:@"sear.png"] forState:UIControlStateNormal];
+//
+//    [serBar addTarget:self action:@selector(enterSearchVC) forControlEvents:UIControlEventTouchUpInside];
+//    [serBar setShowsTouchWhenHighlighted:YES];
+//    [self.navigationController.navigationBar addSubview:serBar];
+//    
+//    [self.navigationController.navigationBar setAlpha:0.3f];
+//    
+//    //右按钮
+//    UIButton *rightbutton = [[UIButton alloc]initWithFrame:CGRectMake(365, 2, 30, 33)];
+//    [rightbutton setImage:[UIImage imageNamed:@"ico_camera_7_gray@2x"] forState:UIControlStateNormal];
+//    [rightbutton addTarget:self action:@selector(qqStyle) forControlEvents:UIControlEventTouchUpInside
+//     ];
+//    [self.navigationController.navigationBar addSubview:rightbutton];
+//}
+- (void)viewWillAppear:(BOOL)animated {
     [super viewWillAppear:animated];
     
-
-    [self.navigationController.navigationBar setBarTintColor:[UIColor groupTableViewBackgroundColor]];
-    
-    //左按钮
-    UIButton *leftbutton = [[UIButton alloc]initWithFrame:CGRectMake(20, 7, 30, 27)];
-    [leftbutton setImage:[UIImage imageNamed:@"Pulse"] forState:UIControlStateNormal];
-    [leftbutton addTarget:self action:@selector(showAddView) forControlEvents:UIControlEventTouchUpInside];
-    [self.navigationController.navigationBar addSubview:leftbutton];
-    
-    
-    //搜索栏
-//    UISearchBar *searchBar = [[UISearchBar alloc]initWithFrame:CGRectMake(80, 6, 250, 30)];
-//    searchBar.placeholder = @"输入条形码;批准文号;药品名称进行查询";
-////    searchBar.alpha = 0.3;
-//    searchBar.layer.cornerRadius = 3.0;
-// 
-//    
-//    UITextField * searchField = [searchBar valueForKey:@"_searchField"];
-//    
-//    [searchField setValue:[UIColor lightGrayColor] forKeyPath:@"_placeholderLabel.textColor"];
-//    [searchField setValue:[UIFont boldSystemFontOfSize:12] forKeyPath:@"_placeholderLabel.font"];
-    
-    UIButton * serBar = [[UIButton alloc]initWithFrame:CGRectMake(80, 6, 270, 35)];
-    [serBar setImage:[UIImage imageNamed:@"sear.png"] forState:UIControlStateNormal];
-
-    [serBar addTarget:self action:@selector(enterSearchVC) forControlEvents:UIControlEventTouchUpInside];
-    [serBar setShowsTouchWhenHighlighted:YES];
-    [self.navigationController.navigationBar addSubview:serBar];
-    
-    
-    //设置为半透明
-//    [self.navigationController.navigationBar setTranslucent:YES];
-   
-    [self.navigationController.navigationBar setAlpha:0.3f];
-    
-//    [self.navigationController.navigationBar addSubview:searchBar];
-    
-    
-    //右按钮
-    UIButton *rightbutton = [[UIButton alloc]initWithFrame:CGRectMake(365, 2, 30, 33)];
-    [rightbutton setImage:[UIImage imageNamed:@"ico_camera_7_gray@2x"] forState:UIControlStateNormal];
-    [self.navigationController.navigationBar addSubview:rightbutton];
+    [self.navigationController setNavigationBarHidden:YES animated:YES];
 }
 
+- (void)viewWillDisappear:(BOOL)animated {
+    [super viewWillDisappear:animated];
+    
+    [self.navigationController setNavigationBarHidden:NO animated:YES];
+}
 
     
     
 -(void)viewDidLoad
 {
     [super viewDidLoad];
-    
+    [self setNav];
     //创建表格视图
-    self.tableView = [[UITableView alloc]initWithFrame:CGRectMake(0, 0, SCREEN_WIDTH, SCREEN_HEIGHT) style:UITableViewStyleGrouped];
+    self.tableView = [[UITableView alloc]initWithFrame:CGRectMake(0, 47, SCREEN_WIDTH, SCREEN_HEIGHT) style:UITableViewStyleGrouped];
     self.tableView.showsVerticalScrollIndicator = NO;
     self.tableView.dataSource = self;
     self.tableView.delegate = self;
@@ -146,6 +144,34 @@
     });
     
 
+}
+
+-(void)setNav{
+    
+    //左按钮
+    UIButton *leftbutton = [[UIButton alloc]initWithFrame:CGRectMake(20, 7, 30, 27)];
+    [leftbutton setImage:[UIImage imageNamed:@"Pulse"] forState:UIControlStateNormal];
+    [leftbutton addTarget:self action:@selector(showAddView) forControlEvents:UIControlEventTouchUpInside];
+    [self.view addSubview:leftbutton];
+    
+    
+    UIButton * serBar = [[UIButton alloc]initWithFrame:CGRectMake(80, 6, 270, 35)];
+    [serBar setImage:[UIImage imageNamed:@"sear.png"] forState:UIControlStateNormal];
+    
+    [serBar addTarget:self action:@selector(enterSearchVC) forControlEvents:UIControlEventTouchUpInside];
+    [serBar setShowsTouchWhenHighlighted:YES];
+    [self.view addSubview:serBar];
+    
+
+    
+    //右按钮
+    UIButton *rightbutton = [[UIButton alloc]initWithFrame:CGRectMake(365, 2, 30, 33)];
+    [rightbutton setImage:[UIImage imageNamed:@"ico_camera_7_gray@2x"] forState:UIControlStateNormal];
+    [rightbutton addTarget:self action:@selector(qqStyle) forControlEvents:UIControlEventTouchUpInside
+     ];
+    [self.view addSubview:rightbutton];
+
+    
 }
 
 //点击进入搜索界面
@@ -281,6 +307,7 @@
 }
 
 
+
 #pragma mark - 数据源方法
 //设置组数
 -(NSInteger)numberOfSectionsInTableView:(UITableView *)tableView
@@ -403,7 +430,42 @@
     }];
 }
 
-
-
+#pragma mark - 扫一扫
+- (void)qqStyle
+{
+    //设置扫码区域参数设置
+    
+    //创建参数对象
+    LBXScanViewStyle *style = [[LBXScanViewStyle alloc]init];
+    
+    //矩形区域中心上移，默认中心点为屏幕中心点
+    style.centerUpOffset = 44;
+    
+    //扫码框周围4个角的类型,设置为外挂式
+    style.photoframeAngleStyle = LBXScanViewPhotoframeAngleStyle_Outer;
+    
+    //扫码框周围4个角绘制的线条宽度
+    style.photoframeLineW = 6;
+    
+    //扫码框周围4个角的宽度
+    style.photoframeAngleW = 24;
+    
+    //扫码框周围4个角的高度
+    style.photoframeAngleH = 24;
+    
+    //扫码框内 动画类型 --线条上下移动
+    style.anmiationStyle = LBXScanViewAnimationStyle_LineMove;
+    
+    //线条上下移动图片
+    style.animationImage = [UIImage imageNamed:@"CodeScan.bundle/qrcode_scan_light_green"];
+    
+    //SubLBXScanViewController继承自LBXScanViewController
+    //添加一些扫码或相册结果处理
+    SubLBXScanViewController *vc = [SubLBXScanViewController new];
+    vc.style = style;   
+    
+    vc.isQQSimulator = YES;
+    [self.navigationController pushViewController:vc animated:YES];
+}
 
 @end

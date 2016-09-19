@@ -50,22 +50,22 @@
 
 
 -(void)setNav{
-    UIView *backView = [[UIView alloc] initWithFrame:CGRectMake(0, 0, screen_width, 64)];
+    UIView *backView = [[UIView alloc] initWithFrame:CGRectMake(0, 0, screen_width, 54)];
     backView.backgroundColor = RGB(250, 250, 250);
     [self.view addSubview:backView];
     //下划线
-    UIView *lineView = [[UIView alloc] initWithFrame:CGRectMake(0, 63.5, screen_width, 0.5)];
+    UIView *lineView = [[UIView alloc] initWithFrame:CGRectMake(0, 53.5, screen_width, 0.5)];
     lineView.backgroundColor = RGB(192, 192, 192);
     [backView addSubview:lineView];
     
     //返回
     UIButton *backBtn = [UIButton buttonWithType:UIButtonTypeCustom];
-    backBtn.frame = CGRectMake(10, 30, 23, 23);
+    backBtn.frame = CGRectMake(10, 20, 23, 23);
     [backBtn setImage:[UIImage imageNamed:@"btn_backItem"] forState:UIControlStateNormal];
     [backBtn addTarget:self action:@selector(OnBackBtn:) forControlEvents:UIControlEventTouchUpInside];
     [backView addSubview:backBtn];
     //标题
-    _titleLabel = [[UILabel alloc] initWithFrame:CGRectMake(screen_width/2-80, 25, 160, 30)];
+    _titleLabel = [[UILabel alloc] initWithFrame:CGRectMake(screen_width/2-80, 17, 160, 30)];
     _titleLabel.textAlignment = NSTextAlignmentCenter;
     //    _titleLabel.textColor = [UIColor whiteColor];
     _titleLabel.text = @"地图";
