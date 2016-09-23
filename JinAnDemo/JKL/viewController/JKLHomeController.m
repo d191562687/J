@@ -157,7 +157,6 @@
     
     UIButton * serBar = [[UIButton alloc]initWithFrame:CGRectMake(80, 6, 270, 35)];
     [serBar setImage:[UIImage imageNamed:@"sear.png"] forState:UIControlStateNormal];
-    
     [serBar addTarget:self action:@selector(enterSearchVC) forControlEvents:UIControlEventTouchUpInside];
     [serBar setShowsTouchWhenHighlighted:YES];
     [self.view addSubview:serBar];
